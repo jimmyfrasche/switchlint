@@ -50,15 +50,10 @@ func inspect(file string) error {
 }
 
 func check(p token.Position, body *ast.BlockStmt) {
-	foundDefault := false
 	for _, block := range body.List {
-		block := block.(*ast.CaseClause)
-		if block.List == nil {
-			foundDefault = true
-			break
+		if block.(*ast.CaseClause).List == nil {
+			return
 		}
 	}
-	if !foundDefault {
-		fmt.Printf("%s: no default case\n", p)
-	}
+	fmt.Printf("%s: no default case\n", p)
 }
